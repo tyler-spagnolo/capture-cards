@@ -1,0 +1,9 @@
+{
+	"id": "capture-cards",
+	"name": "Capture Cards",
+	"version": "0.1.0",
+	"minAppVersion": "1.4.0",
+	"description": "A card-feed capture view over your capture-thoughts note. Tap a card to edit, + to add. Opens via obsidian://capture-cards (for the iPhone Action Button).",
+	"author": "Tyler (cosa)",
+	"isDesktopOnly": false
+}
