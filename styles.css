@@ -100,31 +100,34 @@
 	border-style: dashed;
 }
 
-/* Floating "Done" — big tap target above the keyboard while editing a card.
- * `bottom` is set in JS from visualViewport so it sits above the iOS keyboard. */
-.cc-done {
-	position: fixed;
-	bottom: 16px;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 50;
-	display: none; /* toggled to flex in JS */
+/* Header actions: + normally; Done swaps in while editing. The header is sticky at
+ * the TOP of the scrollport, so Done is always reachable and NEVER behind the
+ * keyboard — works regardless of how the webview handles the keyboard. */
+.cc-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.cc-header-done {
+	display: none; /* shown (inline-flex) only while a card is focused */
 	align-items: center;
 	justify-content: center;
-	min-width: 220px;
-	height: 54px;
-	padding: 0 32px;
+	height: 40px;
+	padding: 0 24px;
 	border: none;
-	border-radius: 27px;
+	border-radius: 20px;
 	/* !important so Obsidian's button styles can't grey out this prominent CTA. */
 	background: var(--interactive-accent) !important;
 	color: var(--text-on-accent) !important;
-	font-size: 17px;
+	font-size: 15px;
 	font-weight: 700;
 	letter-spacing: 0.02em;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28) !important;
+	box-shadow: none !important;
 	cursor: pointer;
 }
-.cc-done:active {
-	background: var(--interactive-accent-hover) !important;
+.cc-header.cc-editing-active .cc-header-done {
+	display: inline-flex;
+}
+.cc-header.cc-editing-active .cc-add {
+	display: none;
 }
