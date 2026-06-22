@@ -1,35 +1,36 @@
-/* Capture Cards — Flomo/memo-style card feed */
+/* Capture Cards — Flomo/memo-style feed where each card IS an editable field.
+ * Natural document flow (no height:100% chain) so it can't collapse on mobile;
+ * the Obsidian view-content scrolls. */
 
 .capture-cards-view {
-	padding: 0;
-	height: 100%;
 	display: flex;
 	flex-direction: column;
+	padding: 0;
 }
 
 .cc-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 12px 16px;
+	padding: 10px 14px;
 	border-bottom: 1px solid var(--background-modifier-border);
 	position: sticky;
 	top: 0;
 	background: var(--background-primary);
-	z-index: 2;
+	z-index: 5;
 }
 
 .cc-title {
-	font-size: 1.1em;
+	font-size: 1.05em;
 	font-weight: 700;
-	letter-spacing: 0.01em;
 }
 
 .cc-add {
-	font-size: 1.4em;
+	font-size: 1.5em;
 	line-height: 1;
-	width: 38px;
-	height: 38px;
+	width: 40px;
+	height: 40px;
+	min-width: 40px;
 	border-radius: 50%;
 	border: none;
 	cursor: pointer;
@@ -40,18 +41,15 @@
 	justify-content: center;
 	padding: 0;
 }
-.cc-add:hover {
+.cc-add:active {
 	background: var(--interactive-accent-hover);
 }
 
 .cc-list {
-	flex: 1;
-	overflow-y: auto;
-	padding: 12px;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	-webkit-overflow-scrolling: touch;
+	padding: 12px;
 }
 
 .cc-empty {
@@ -60,71 +58,41 @@
 	padding: 40px 16px;
 }
 
+/* The card IS the textarea — always editable. */
 .cc-card {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	margin: 0;
 	background: var(--background-secondary);
 	border: 1px solid var(--background-modifier-border);
 	border-radius: 12px;
 	padding: 14px 16px;
-	cursor: text;
+	color: var(--text-normal);
+	font-family: inherit;
+	/* >=16px so iOS doesn't zoom the viewport on focus */
+	font-size: max(16px, var(--font-text-size, 16px));
+	line-height: 1.45;
+	resize: none;
+	overflow: hidden;
+	min-height: 52px;
+	/* Obsidian sets user-select:none on mobile chrome; force text selection back on
+	   so the caret/typing works on iOS. */
+	-webkit-user-select: text;
+	user-select: text;
+	-webkit-appearance: none;
+	appearance: none;
 	transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
-.cc-card:hover {
-	border-color: var(--interactive-accent);
+.cc-card::placeholder {
+	color: var(--text-muted);
 }
-.cc-card.cc-editing {
-	cursor: default;
+.cc-card:focus,
+.cc-card:focus-visible {
+	outline: none;
 	border-color: var(--interactive-accent);
 	box-shadow: 0 0 0 1px var(--interactive-accent);
 }
-
-.cc-card-body {
-	white-space: pre-wrap;
-	word-break: break-word;
-	font-size: var(--font-text-size, 16px);
-	line-height: 1.45;
-}
-
-.cc-textarea {
-	width: 100%;
-	box-sizing: border-box;
-	resize: none;
-	border: none;
-	background: transparent;
-	color: var(--text-normal);
-	font-family: inherit;
-	font-size: var(--font-text-size, 16px);
-	line-height: 1.45;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-}
-.cc-textarea:focus {
-	outline: none;
-}
-
-.cc-actions {
-	display: flex;
-	gap: 8px;
-	justify-content: flex-end;
-	margin-top: 10px;
-}
-
-.cc-actions button {
-	padding: 6px 14px;
-	border-radius: 8px;
-	cursor: pointer;
-	font-size: 0.9em;
-}
-.cc-save {
-	background: var(--interactive-accent);
-	color: var(--text-on-accent);
-	border: none;
-}
-.cc-save:hover {
-	background: var(--interactive-accent-hover);
-}
-.cc-cancel {
-	background: transparent;
-	color: var(--text-muted);
-	border: 1px solid var(--background-modifier-border);
+.cc-card.cc-new {
+	border-style: dashed;
 }
